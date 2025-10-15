@@ -4,7 +4,7 @@ when we inject javascript scripts into html code, we should also put type="modul
 so that the script will be loaded asynchronously, not synchronously
  */
 
-/*
+/**
 /////////////////////////////////////////////////////////////////////////////////
 We can check the type of value by typing typeof
  */
@@ -24,7 +24,7 @@ let func = function (){ return 1}
 console.log(typeof func); // function
 
 
-/*
+/**
 /////////////////////////////////////////////////////////////////////////////////
 Now for the types
 Primitive types are: Number, String, Boolean
@@ -47,7 +47,7 @@ console.log(NaN, Boolean(NaN), !!NaN) // NaN, false, false
 
 
 
-/*
+/**
 /////////////////////////////////////////////////////////////////////////////////
 Now for the console.
 We can use special commands or variables in the console:
@@ -66,7 +66,7 @@ console.log(a)
 
 
 
-/*
+/**
 /////////////////////////////////////////////////////////////////////////////////
 For scope of variables we have these types:
 - var - global, can also be used outside where its defined, CAN BE REDECLARED in the current scope
@@ -98,7 +98,7 @@ const c_arr = [1,2,3]
 c_arr[2] = 15; // THis is NO ERROR
 console.log(c_arr) // [ 1, 2, 15 ]
 
-/*
+/**
 /////////////////////////////////////////////////////////////////////////////////
 We cannot use variables/objects that were never mentioned before, but
 mentioned and without assigned value is possible, those are 'undefined'.
@@ -109,7 +109,7 @@ mentioned and without assigned value is possible, those are 'undefined'.
 let vvx;
 console.log(vvx) // This will be 'undefined', it is there but without value, but NO ERROR
 
-/*
+/**
 /////////////////////////////////////////////////////////////////////////////////
 Now for JS Objects.
 We can define then as a dictionary of key-pair values. We can add them in the definition or later during runtime, also

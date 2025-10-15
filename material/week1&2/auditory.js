@@ -1,4 +1,25 @@
 
+/*
+Classic C-style for
+Low level, trades readability for power
+for (let i=0; i<mondayLectures.length; i++) {
+	const lecture = mondayLectures[i];
+	lecture.textContent = "I hate Mondays 😫";
+}
+for...in
+Iterate over object properties
+for (const i in mondayLectures) {
+	const lecture = mondayLectures[i];
+	lecture.textContent = "I hate Mondays 😫";
+}
+for...of
+Iterate over items of iterable objects
+for (const lecture of mondayLectures) {
+	lecture.textContent = "I hate Mondays 😫";
+}
+* */
+
+
 // Classical for loop
 for(let i = 0; i < 5; i++){
     console.log(i)
@@ -88,12 +109,12 @@ let AV = function (one,two){
 // not the lambda itself.
 let AL = (one, two) => console.log(one + two);
 
-/*
+/**
 Now for functions as a variable, they can be passed as a regular object/variable, and we can call/invoke it with using .call(object_arg),
 but then the 'this' pointer inside the passed function will be pointing to the 'object_arg' object.
  */
 
-/*
+/**
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 Now for spread and deconstruct operator
 if we want to extract the values from a collection or object we can use the spread operator '...'
