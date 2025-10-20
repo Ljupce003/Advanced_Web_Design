@@ -65,6 +65,7 @@
 
 
 /**
+ * /////////////////////////////////////////////////////////////////////////////////
  * Class Accessors
  *
  * ---- We can define Getters and Setters for attributes
@@ -100,7 +101,19 @@
  *     }
  * }
  *
+ *
+ * obj.foo++  VERSUS  obj.setFoo(obj.getFoo() + 1)
+ *
+ * Many would think these two are the same, but they aren't.
+ * 1. The first one accesses obj.foo and then increments it directly.
+ * 2. But the second invokes a function call to get the resource and then sets it with a setter function.
+ *    This is slower compared to the first one.
+ *
+ *
  * */
+
+
+
 
 
 
@@ -128,3 +141,42 @@
  * Each module is only executed once, even if imported many times
  *
  * */
+
+
+/**
+ * /////////////////////////////////////////////////////////////////////////////////
+ * Old-style JavaScript classes (before `class` syntax) are created using function constructors
+ * and prototypes.
+ *
+ * ---- Constructor function:
+ * function Person(name, age) {
+ *     this.name = name;
+ *     this.age = age;
+ * }
+ *
+ * ---- Adding methods via prototype (shared by all instances):
+ * Person.prototype.greet = function() {
+ *     console.log(`Hello, my name is ${this.name}`);
+ * };
+ *
+ * ---- Creating an instance:
+ * const alice = new Person("Alice", 25);
+ * alice.greet(); // Hello, my name is Alice
+ *
+ * ---- Inheritance with prototypes:
+ * function Student(name, age, grade) {
+ *     Person.call(this, name, age); // call super-constructor
+ *     this.grade = grade;
+ * }
+ *
+ * Student.prototype = Object.create(Person.prototype); // inherit methods
+ * Student.prototype.constructor = Student; // fix constructor reference
+ *
+ * const bob = new Student("Bob", 20, "A");
+ * bob.greet(); // Hello, my name is Bob
+ *
+ * Notes:
+ * - `__proto__` can also be used to manually set prototype, but `Object.create()` is preferred.
+ * - Methods added to the prototype are shared among all instances, saving memory.
+ * - This is essentially what `class` + `extends` does under the hood.
+ */
