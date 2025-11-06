@@ -83,7 +83,7 @@ if (1){
     console.log("fa inside =: ",fa)
     console.log("fv inside =: ",fv)
     console.log("fc inside =: ",fc)
-    var fv = 45
+    fv = 45
 }
 console.log("fv outside =: ",fv)
 // console.log("fc outside =: ",fc) // fc is not defined ERROR

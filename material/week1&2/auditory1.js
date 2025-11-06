@@ -151,7 +151,7 @@ let s_name = user.Surname
 
 /**
  * ///////////////////////////////////////////////////////////////////////////////////////////////////
- Closures - when a function remembers variables form the place it was created, nad inner functions can still access outer
+ Closures - when a function remembers variables from the place it was created, and inner functions can still access outer
  variables, even after outer function is finished.
 
  function FactoryFunction(color){

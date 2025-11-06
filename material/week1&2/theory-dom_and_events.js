@@ -118,7 +118,7 @@
 * */
 
 /**
- * Event bubbling - When an event occurs on a element, it bubbles up to its parent, then the parent's parent...
+ * Event bubbling - When an event occurs on an element, it bubbles up to its parent, then the parent's parent...
  * all the way up to 'document'
  *
  * HTML:
@@ -185,7 +185,7 @@
  * This works because of event bubbling:
  *  The click event originates on the <li>.It bubbles up to the <ul>.You handle it there.
  *
- * ✨ Benefits of event delegation:
+ * Benefits of event delegation:
  * Fewer event listeners → more efficient.Works for dynamically added elements. Cleaner code.
  *
  * */
