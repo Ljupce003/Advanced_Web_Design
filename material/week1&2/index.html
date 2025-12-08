@@ -3,9 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script type="module" src="auditory.js"></script>
+<!--    <script type="module" src="auditory1.js"></script>-->
 </head>
 <body id="body">
 Hello World
+
+<div id="grandparent" style="background-color: #2a5b00">
+    <div id="parent" style="width: 50%;background-color: #36ab36">
+        <button id="btn" style="background-color: #c0d4c0">Click</button>
+    </div>
+</div>
+
+
+<ul id="list">
+    <li>Apple</li>
+    <li>Banana</li>
+    <li id="ch">Cherry</li>
+</ul>
+
 </body>
+<script>
+    document.getElementById("btn").addEventListener("click", function (e) {
+        console.log("Button clicked");
+        console.log(e.target)
+        console.log(e.currentTarget)
+        // e.stopPropagation();     // <-- stops here, parent/grandparent won't run
+    });
+
+    document.getElementById("parent").addEventListener("click", function (e) {
+        console.log("Parent clicked");   // <-- won't run
+        console.log(e.target)
+        console.log(e.currentTarget)
+    });
+
+    document.getElementById("grandparent").addEventListener("click", function (e) {
+        console.log("Grandparent clicked"); // <-- won't run
+        console.log(e.target)
+        console.log(e.currentTarget)
+    });
+
+    let list = document.getElementById("list")
+    list.addEventListener("click", e => {
+        if (e.target.tagName === "LI") {
+            console.log("Clicked on:", e.target.textContent);
+        }
+    });
+
+    let cherry_el = document.getElementById("ch")
+
+    let custom_event = new MouseEvent("click",{bubbles: true});
+
+    setTimeout(() => {
+        cherry_el.dispatchEvent(custom_event)
+    },500)
+
+
+
+</script>
 </html>

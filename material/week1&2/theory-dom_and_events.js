@@ -46,7 +46,7 @@
  *  meaning that If the DOM changes, the collection updates automatically. Doesn't support 'forEach' natively.
  *  So you need conversion to array, ex:
  *      const divs = document.getElementsByTagName("div");
- *      Array.from(divs).forEach(el => console.log(el)); // ✅ works
+ *      Array.from(divs).forEach(el => console.log(el)); // works
  *
  * We can remove elements from the DOM with .remove() . Example; blueButton.remove()
  * Removed elements are automatically collected by the garbage collector(automatically releases memory addresses

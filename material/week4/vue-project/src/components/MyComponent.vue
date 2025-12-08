@@ -122,9 +122,10 @@ export default {
 
     <!-- computed properties by default only have 'getter', but we can define 'setters' too, 
      look how the value of this computed property changes(is set) after a input click -->
-    <input type="button" @click="() => computedVar = 'Mal'" value="Reset Computed"></input>
+  <p>{{ computedVar }}</p>
+  <input type="button" @click="() => computedVar = 'Mal'" value="Reset Computed"></input>
 
-    <p>{{ computedVar }}</p>
+  <p>{{ computedVar }}</p>
 
     <input type="button" @click="getDate" value="Get the date"></input>
 

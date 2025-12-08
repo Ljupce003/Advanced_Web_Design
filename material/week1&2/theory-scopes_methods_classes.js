@@ -62,6 +62,29 @@
  *  customElements.define("citizen",Citizen)
  * */
 
+class P{
+    #SSN;
+
+    constructor(name,ssn) {
+        this.name = name
+        this.#SSN = ssn
+    }
+
+    get SSN() {
+        return this.#SSN;
+    }
+
+    set setSSN(value) {
+        this.#SSN = value;
+    }
+}
+
+let p = new P("Peter","123-456")
+
+console.log(p.SSN);
+console.log(p.setSSN = "654 - 3333");
+console.log(p.SSN)
+// console.log(p.SSNs)
 
 
 /**
@@ -137,7 +160,7 @@
  * import { obj as square} from './modules/square.js';   - import 'obj', but call it 'square' in my namespace
  *
  * Any name can be exported---from let, function, const
- * Renaming using as lets you avoid name conflicts between modules
+ * Renaming using 'as' lets you avoid name conflicts between modules
  * Each module is only executed once, even if imported many times
  *
  * */

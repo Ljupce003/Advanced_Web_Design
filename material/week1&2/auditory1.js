@@ -39,6 +39,10 @@ let user = {
 for(let e in user){
     console.log(e)
 }
+//Name
+//Surname
+//MiddleName
+
 
 // console.table([1,2,3,4,5])
 
@@ -126,8 +130,8 @@ let arr2 = [4,5,6]
 let directly_merger_arr = [arr1 , arr2] // will just put both arrays as elements instead of taking their elements to form a bigger array
 let merger_arr_w_spread_opp = [...arr1 , ...arr2] // will extract the elements from both arrays to form the merged array
 
-console.log(directly_merger_arr)
-console.log(merger_arr_w_spread_opp)
+console.log(directly_merger_arr) // [ [ 1, 2, 3 ], [ 4, 5, 6 ] ]
+console.log(merger_arr_w_spread_opp) // [ 1, 2, 3, 4, 5, 6 ]
 
 let [e1,e2] = arr1 // deconstructs the array and extracts and also assigns values to the nw variables
 /*
@@ -135,8 +139,8 @@ the upper line is same as:
 let e1 = arr1[0]
 let e2 = arr1[1]
  */
-console.log(e1)
-console.log(e2)
+console.log(e1) // 1
+console.log(e2) // 2
 
 let {Name,Surname:s_name} = user // deconstructs an object and extracts its attributes
 console.log(Name) //
@@ -258,15 +262,19 @@ let user_objs = [
     { id: 5, name: "John", email: "john@example.com" },
     { id: 6, name: "Jane", email: "jane@example.com" }
 ]
-
-let unique_user_names = []
+console.log("Start Here")
+let unique_user_names = new Set()
 
 let unique_users = user_objs.filter((el) => {
-    let notInUniqueArrBool = !unique_user_names.includes(el.name)
-    if(notInUniqueArrBool){
-        unique_user_names.push(el.name)
-    }
-    return notInUniqueArrBool
+    if(unique_user_names.has(el.name)) return false
+
+    unique_user_names.add(el.name)
+    return true
+    // let notInUniqueArrBool = !unique_user_names.includes(el.name)
+    // if(notInUniqueArrBool){
+    //     unique_user_names.push(el.name)
+    // }
+    // return notInUniqueArrBool
 })
 let fullString = unique_users.map(el => el.name).sort().join(",")
 console.log(fullString)
@@ -280,7 +288,7 @@ const students = [
     { name: "Julia", grade: 19 },
     { name: "Nathalie", grade: 9 },
 ];
-let sumGrades = students.filter(st => st.grade>10).map(st => st.grade).reduce((prevSum,curr) => prevSum+=curr, 0)
+let sumGrades = students.filter(st => st.grade>10).map(st => st.grade).reduce((prevSum,curr) => prevSum+curr, 0)
 console.log(sumGrades)
 
 
@@ -307,7 +315,7 @@ console.log(grade)
  * Now for Promises, they are objects that represent the result of an async operation - a value that you will get in
  * the future, once the task is completed
  *
- * This is used for asynchronous operations like API calls, file reading, timers, etc..
+ * This is used for asynchronous operations like API calls, file reading, timers, etc...
  *
  * The result is handled with .then() , .catch(), .finally()
  *
@@ -340,7 +348,7 @@ async function loadUsers(){
     }
 }
 
-// await loadUsers()
+// loadUsers()
 
 
 // 5. Fetch data for products from https://dummyjson.com/products

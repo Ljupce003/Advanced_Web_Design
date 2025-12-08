@@ -205,4 +205,4 @@ async function ex2func(){
 
 
 
-await ex2func()
+ex2func().then(res => console.log("Async finished"))
