@@ -1,0 +1,19 @@
+{
+  "name": "vanilla_project",
+  "version": "1.0.0",
+  "main": "dist/vanilla_project.js",
+  "files": [
+    "dist/vanilla_project.js"
+  ],
+  "devDependencies": {
+    "rollup": "^4.55.1",
+    "rollup-plugin-cleanup": "^3.2.1",
+    "rollup-plugin-filesize": "^10.0.0"
+  },
+
+  "scripts": {
+    "prepack": "npm run build",
+    "build": "rollup -c"
+  },
+  "type": "module"
+}
