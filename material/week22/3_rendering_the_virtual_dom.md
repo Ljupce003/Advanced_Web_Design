@@ -1,5 +1,21 @@
 # Here we will cover the virtual DOM, its definition, understanding, implementation
 
+<!-- TOC -->
+* [Here we will cover the virtual DOM, its definition, understanding, implementation](#here-we-will-cover-the-virtual-dom-its-definition-understanding-implementation)
+  * [Problems with vanilla JavaScript implementations of apps](#problems-with-vanilla-javascript-implementations-of-apps)
+  * [The Virtual DOM](#the-virtual-dom)
+  * [Initial setup](#initial-setup)
+    * [The function `withoutNulls` in utils/arrays.js](#the-function-withoutnulls-in-utilsarraysjs)
+    * [The function `mapTextNodes`](#the-function-maptextnodes)
+    * [The function `hString`](#the-function-hstring)
+    * [Implementation of `hFragment` function](#implementation-of-hfragment-function)
+  * [Testing V-DOM functions](#testing-v-dom-functions)
+  * [Components](#components)
+    * [The view of an application is a generated from the state.](#the-view-of-an-application-is-a-generated-from-the-state)
+  * [The application creates the V-DOM that later the framework renders it into the DOM](#the-application-creates-the-v-dom-that-later-the-framework-renders-it-into-the-dom)
+    * [Hierarchy of the components for the TODO app](#hierarchy-of-the-components-for-the-todo-app)
+<!-- TOC -->
+
 ## Problems with vanilla JavaScript implementations of apps
 
 Using the **Document API** is the most burdensome to write.
@@ -51,7 +67,7 @@ a **declarative way**.
     - Each node in the _virtual dom_ is called a  **_virtual node (vnode)_**. Virtual nodes are cheap and lightweight (
       basically JavaScript objects)
 
-A virtual DOM representation of a HTML needs to contain the same information as the DOM, including:
+A virtual DOM representation of an HTML needs to contain the same information as the DOM, including:
 
 - What nodes are in the tree and their attributes;
 - The hierarchy of the nodes in the tree;
@@ -229,7 +245,14 @@ export function hString(str) {
 
 ### Implementation of `hFragment` function
 
-Fragment will group multiple nodes not currently attached to the DOM, Container for an array of virtual nodes.
+Fragment will group multiple nodes not currently attached to the DOM, Container for an array of virtual nodes. THis can
+be used anywhere we want to group v-nodes without adding another node (for example: a `<div>`) that we will use as a
+wrapper.
+
+Instead of wrapping a group of elements into a needless `<div>` tag, we can wrap them into a fragment, like we did in
+React with the `<>` tag that helped us in situation where we have a collection of nodes or components, but we need to
+return only one component, so it those cases we wrapped that collection into a fragment that will not be shown in the
+DOM, it will be ignored, and used only for grouping purposes.
 
 ```javascript
 export function hFragment(vNodes) {
@@ -299,14 +322,15 @@ Example component creation
 ```javascript
 function App(state) {
     return hFragment([
-        h('h1', {}, ['My TODOs']), 
-        CreateTodo(state), 
+        h('h1', {}, ['My TODOs']),
+        CreateTodo(state),
         TodoList(state)
     ])
 }
 ```
 
 You can notice that;
+
 - No parent node in the V-DOM contains hte header and the subcomponents;
 - V-DOM creation functions are in **PascalCase**
 - The **TodoList()** component is broken into **TodoItem()**
@@ -315,22 +339,23 @@ You can notice that;
 
 ```javascript
 function TodoList(state) {
-    return h('ul', {}, 
+    return h('ul', {},
         state.todos.map((todo, i) => TodoItem(todo, i, state.editingIdxs))
     )
 }
 ```
 
 We will have different components/subcomponents depending on the read/edit mode:
+
 - **TodoInReadMode()**
 - **TodoInEditMode()**
 
 ```javascript
-// idxInList is the index of this todo item in the list of todos.
+// idxInList is the index of this to-do item in the list of todos.
 // editingIdxs is a Set of indexes of todos that are being edited.
 function TodoItem(todo, idxInList, editingIdxs) {
     const isEditing = editingIdxs.has(idxInList)
-    return h('li', {}, [ 
+    return h('li', {}, [
         isEditing ? TodoInEditMode(todo, idxInList) : TodoInReadMode(todo, idxInList)
     ])
 }
@@ -343,10 +368,11 @@ function TodoItem(todo, idxInList, editingIdxs) {
 A component returns a single virtual DOM node.
 
 Tree of components:
+
 - `App()` - root of the tree, its children are grouped in a fragment code
 - `<h1>`
 - `CreateTodo()`
 - `TodoList()` - has a single child `<ul>` that can have multiple children of type `TodoItem()`
-  - `TodoItem()` - can have one of the two children:
-    - `TodoInEditMode()`
-    - `TodoInReadMode()`
+    - `TodoItem()` - can have one of the two children:
+        - `TodoInEditMode()`
+        - `TodoInReadMode()`

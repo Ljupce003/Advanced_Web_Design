@@ -1,4 +1,6 @@
-import {h, hFragment, hString} from "./h.js"
+import {DOM_TYPES, h, hFragment, hString} from "./h.js"
+import {mountDOM} from "./mount-dom.js";
+import {destroyDOM} from "./destroy-dom.js";
 
 
 console.log('This will soon be a frontend framework!')
@@ -25,10 +27,10 @@ function TodosList(todos) {
 
 
 function CreateTodo(state = null) {
-    return h("div",{},[
-        h('label',{for: "todo-input"},["New TODO"]),
-        h('input',{type: "text",id: "todo-input"}),
-        h('input',{disabled: true,id: "add-todo-btn"},["Add"]),
+    return h("div", {}, [
+        h('label', {for: "todo-input"}, ["New TODO"]),
+        h('input', {type: "text", id: "todo-input"}),
+        h('input', {disabled: true, id: "add-todo-btn"}, ["Add"]),
     ]);
 }
 
@@ -58,19 +60,51 @@ function TodoItem(todo, idxInList, editingIds) {
 
 function TodoInEditMode(todo, idxInList) {
     return [
-        h("input",{type: "text", value: todo},[todo]),
-        h("button",{disabled: todo.length < 3},["Save"]),
-        h("button",{},["Cancel"]),
+        h("input", {type: "text", value: todo}, [todo]),
+        h("button", {disabled: todo.length < 3}, ["Save"]),
+        h("button", {}, ["Cancel"]),
     ];
 }
 
 function TodoInReadMode(todo, idxInList) {
     return [
-        h("span",{},[todo]),
-        h("button",{},["Done"]),
+        h("span", {}, [todo]),
+        h("button", {}, ["Done"]),
     ];
 }
 
-let state_v = {todos: todos,editingIds: []}
+let state_v = {todos: todos, editingIds: []}
 
 console.log(JSON.stringify(App(state_v), null, 2))
+
+// const v_dom = h('section', {}, [
+//     h('h1', {}, ['My Blog']),
+//     h('p', {}, ['Welcome to my blog!'])
+// ])
+// mountDOM(v_dom, document.body)
+
+const v_dom1 = hFragment([
+    h("h1", {class: "title"}, ["My Counter"]),
+    h("div", {
+            class: "container",
+            style: {
+                display: "flex",
+                justifyContent: "space-around",
+                width: "auto"
+            }
+        },
+        [
+            h("button", {}, ["decrement"]),
+            h("span", {}, ["0"]),
+            h("button", {}, ["increment"])
+        ])
+])
+
+mountDOM(v_dom1, document.body)
+
+
+
+setTimeout(() => {
+    destroyDOM(v_dom1)
+    console.log("Virtual DOM destroyed")
+},2500)

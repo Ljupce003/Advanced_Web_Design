@@ -3,6 +3,20 @@
 We will build a basic web app using vanilla js and HTML only. We will create DOM elements programmatically using the *
 *Document API** to manipulate the DOM.
 
+<!-- TOC -->
+* [We will build a web application using vanilla JavaScript and HTML](#we-will-build-a-web-application-using-vanilla-javascript-and-html)
+  * [Why Vanilla JavaScript](#why-vanilla-javascript)
+  * [The Vanilla App](#the-vanilla-app)
+    * [Planning our app](#planning-our-app)
+    * [Application State](#application-state)
+    * [Project Setup](#project-setup)
+      * [In the HTML file:](#in-the-html-file)
+      * [In the JavaScript file](#in-the-javascript-file)
+      * [Generate the HTML](#generate-the-html)
+        * [The code of the application(in todos.js)](#the-code-of-the-applicationin-todosjs)
+    * [Conclusion](#conclusion)
+<!-- TOC -->
+
 ## Why Vanilla JavaScript
 
 Why do we build a web app in vanilla js when we have frameworks like Vue, React, Angular.  
@@ -13,7 +27,7 @@ In the older days, apps were made with vanilla javascript, HTML and with CSS sty
 with the DOM.  
 THis is **still a possible way** to write applications, but in more specific cases is doable.
 
-## THe Vanilla App
+## The Vanilla App
 
 So we will build a simple app from scratch using only:
 
