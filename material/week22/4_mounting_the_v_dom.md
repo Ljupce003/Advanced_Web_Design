@@ -27,6 +27,7 @@ We will see how we will create HTML nodes from V-DOM nodes, insert them into the
       * [Considerations](#considerations)
       * [Destroying `Text Nodes`](#destroying-text-nodes)
       * [Destroying `Element Nodes`](#destroying-element-nodes)
+      * [Destroying `Fragment Nodes`](#destroying-fragment-nodes)
 <!-- TOC -->
 
 ## Mounting the Virtual DOM
@@ -487,4 +488,4 @@ function removeElementNode(vdom) {
 We call the `destroyDOM()` function for each child. But **DON'T remove** the `el` referenced in the fragment
 vnode.
 
-<img alt="img.png" style="width: 40%;" src="img_4_9_remove_fragment_nodes.png"/>
+<img alt="img.png" style="width: 40%;" src="images/img_4_9_remove_fragment_nodes.png"/>

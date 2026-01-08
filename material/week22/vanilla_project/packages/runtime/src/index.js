@@ -1,9 +1,10 @@
 import {DOM_TYPES, h, hFragment, hString} from "./h.js"
 import {mountDOM} from "./mount-dom.js";
 import {destroyDOM} from "./destroy-dom.js";
+import {createApp} from "./app.js";
 
 
-console.log('This will soon be a frontend framework!')
+// console.log('This will soon be a frontend framework!')
 
 const login = () => console.log("THe login function is clicked")
 
@@ -73,9 +74,9 @@ function TodoInReadMode(todo, idxInList) {
     ];
 }
 
-let state_v = {todos: todos, editingIds: []}
-
-console.log(JSON.stringify(App(state_v), null, 2))
+// let state_v = {todos: todos, editingIds: []}
+//
+// console.log(JSON.stringify(App(state_v), null, 2))
 
 // const v_dom = h('section', {}, [
 //     h('h1', {}, ['My Blog']),
@@ -100,11 +101,39 @@ const v_dom1 = hFragment([
         ])
 ])
 
-mountDOM(v_dom1, document.body)
+// mountDOM(v_dom1, document.body)
+//
+//
+//
+// setTimeout(() => {
+//     destroyDOM(v_dom1)
+//     console.log("Virtual DOM destroyed")
+// },2500)
 
 
+const app = createApp({
+        state: 0,
+        view: (state, emit) => hFragment([
+            h("h1", {class: "title"}, ["My Counter"]),
+            h("div", {
+                    class: "container",
+                    style: {
+                        display: "flex",
+                        justifyContent: "space-around",
+                        width: "auto"
+                    }
+                },
+                [
+                    h("button", {on: {click: () => emit('decrement', 1)}}, ["decrement"]),
+                    h("span", {}, [hString(state)]),
+                    h("button", {on: {click: () => emit('increment', 1)}}, ["increment"])
+                ])
+        ]),
+        reducers: {
+            increment: (state, amount) => state + amount,
+            decrement: (state, amount) => state - amount,
+        }
+    }
+)
 
-setTimeout(() => {
-    destroyDOM(v_dom1)
-    console.log("Virtual DOM destroyed")
-},2500)
+app.mount(document.body)
