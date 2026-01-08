@@ -32,7 +32,7 @@ state accordingly, also notifies the renderer when state is changed.
   renderer that the state is changed
 - _the framework's renderer_ - re-renders the view with a new state
 
-<img alt="img.png" style="width: 40%" src="img_5_1_state_manager_example.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_5_1_state_manager_example.png"/>
 
 Now, how can we update the state when a particular event is dispatched, and how will the state manager execute the
 instructions?
@@ -45,7 +45,7 @@ We implemented the _renderer_ using the `mountDOM()` and `destroyDOM()` function
 
 Now we will implement the state manager entities and the communication between them
 
-<img alt="img.png" style="width: 40%" src="img_5_2_render_example.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_5_2_render_example.png"/>
 
 In this stage of the framework the renderer will destroy and mount the DOM for every state update.
 THe process is:
@@ -59,7 +59,7 @@ While this is not very optimized, but we will improve it when we start talking a
 
 For now, we focus on handling state changes based on the user input
 
-<img alt="img.png" style="width: 40%" src="img_5_3_state_change_on_user_input.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_5_3_state_change_on_user_input.png"/>
 
 For now, we have made the:
 
@@ -98,14 +98,14 @@ that has happened. These commands ask the framework to update the state, and are
 | Press the Enter key (while the input field is focused). | add-todo    | Pressing the Enter key adds a new to-do item to the list                          |
 | Click the Done button.                                  | remove-todo | Clicking the Done button marks the to-do item as done, removing it from the list. |
 
-<img alt="img.png" style="width: 40%" src="img_5_4_event_command_mapping.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_5_4_event_command_mapping.png"/>
 
 ## Reducer
 
 **Reducer functions** will be implemented by using pure functions and making data immutable. The state is currently
 immutable, so the functions should create a new state.
 
-<img alt="img.png" style="width: 40%" src="img_5_5_reducer_function.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_5_5_reducer_function.png"/>
 
 **Reducer** is a function that takes the current state and payload(the command's data) and returns a new updated state.
 We should never mutate the state that's passed to them. Instead, we will create a **new state** (so that they remain *
@@ -133,7 +133,7 @@ developer must specify with handler function(s) the system should execute in res
 
 **Consumer** is a function that accepts a single parameter, the command's payload and returns no value.
 
-<img alt="img.png" style="width: 40%" src="img_5_6_consumer_function.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_5_6_consumer_function.png"/>
 
 ```javascript
 function removeTodoHandler(todoIndex) {
@@ -196,7 +196,7 @@ we can execute **after-command** functions after every dispatch. This function t
 - The <u>**name**</u> of the command to dispatch;
 - The <u>**payload**</u> of the command;
 
-<img alt="img.png" style="width: 40%" src="img_5_7_dispatch_subscribe_image.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_5_7_dispatch_subscribe_image.png"/>
 
 #### The `afterEveryCommand()` function
 
@@ -208,7 +208,7 @@ that we want to be executed after every dispatch request. This method takes one 
 Because of the stage that we are for the framework, here we can define so that the app is
 re-rendered after every dispatch (assuming that the commands all alter the state).
 
-<img alt="img.png" style="width: 40%" src="img_5_8_after_command_mechanism.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_5_8_after_command_mechanism.png"/>
 
 ### The Code
 
@@ -272,7 +272,7 @@ export class Dispatcher {
 }
 ```
 
-<img alt="img.png" style="width: 40%" src="img_5_9_state_manager_plus_renderer_image.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_5_9_state_manager_plus_renderer_image.png"/>
 
 ## Application instance
 
@@ -303,7 +303,7 @@ Both should be initialized to **_null_**.
 `renderApp()` - function that renders the view by destroying the current DOM tree (if one exists) and then mounting the
 new one.
 
-<img alt="img.png" style="width: 40%" src="img_5_10_components_dispatching_commands.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_5_10_components_dispatching_commands.png"/>
 
 
 ### The Code of the Whole `createApp()` function
