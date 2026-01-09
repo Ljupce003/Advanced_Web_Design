@@ -7,6 +7,7 @@ import {Dispatcher} from "./dispatcher.js";
 export function createApp({state, view, reducers = {}}) {
     let parentEl = null
     let v_dom = null
+    let isMounted = false
 
     const dispatcher = new Dispatcher()
     // rerenders the application after every command
@@ -46,13 +47,24 @@ export function createApp({state, view, reducers = {}}) {
     // returns a closure instance that will have methods for mount and unmount
     return {
         mount(_parentEl) {
+
+            if (isMounted) {
+                throw new Error("The application is already mounted");
+            }
+
             parentEl = _parentEl
-            renderApp()
+            v_dom = view(v_dom, emit)
+            mountDOM(v_dom, parentEl)
+            isMounted = true
+
+            // renderApp()
         },
         unmount() {
             destroyDOM(v_dom)
             v_dom = null
             subscriptions.forEach((unsubscribe) => unsubscribe())
+
+            isMounted = false
         }
     }
 }

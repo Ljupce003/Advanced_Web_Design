@@ -6,14 +6,25 @@
     "dist/vanilla_project.js"
   ],
   "devDependencies": {
+    "eslint": "^9.39.2",
+    "jsdom": "^27.4.0",
     "rollup": "^4.55.1",
     "rollup-plugin-cleanup": "^3.2.1",
-    "rollup-plugin-filesize": "^10.0.0"
+    "rollup-plugin-filesize": "^10.0.0",
+    "vitest": "^4.0.16"
   },
-
   "scripts": {
     "prepack": "npm run build",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
-  "type": "module"
+  "type": "commonjs",
+  "dependencies": {
+    "@eslint/eslintrc": "^3.3.3",
+    "@eslint/js": "^9.39.2",
+    "globals": "^14.0.0"
+  }
 }
