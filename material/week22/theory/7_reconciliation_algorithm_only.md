@@ -26,6 +26,7 @@
       * [Algorithm Whole Code](#algorithm-whole-code)
         * [`arraysDiffSequence()` function](#arraysdiffsequence-function-1)
         * [`ArrayWithOriginalIndices` class](#arraywithoriginalindices-class-1)
+  * [Summary](#summary)
 <!-- TOC -->
 
 ## Analogy
@@ -35,7 +36,7 @@ The analogy is similar to updating a shopping list
 Where if we have another list, we don't just rewrite again, only compare and add or remove what is missing in the new
 one.
 
-<img alt="img.png" style="width: 40%" src="img_7_1_shopping_list_analogy.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_1_shopping_list_analogy.png"/>
 
 ## Current implementation of managing the view
 
@@ -43,8 +44,8 @@ Currently, we destroy and mount the DOM everytime we have a change, and that is 
 
 We want to figure out what is changed and only apply those changes, making the process more efficient.
 
-<img alt="img.png" style="width: 40%" src="img_7_2_bad_optimization_example.png"/>
-<img alt="img.png" style="width: 40%" src="img_7_3_good_optimization_example.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_2_bad_optimization_example.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_3_good_optimization_example.png"/>
 
 ## The reconciliation algorithm
 
@@ -91,7 +92,7 @@ Traveling this way is important for **_fragments_**:
 - If the number of children changes, the change could potentially alter the indexes where the siblings of the fragment's
   parent are inserted;
 
-<img alt="img.png" style="width: 40%" src="img_7_4_differences_between_v_dom_1.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_4_differences_between_v_dom_1.png"/>
 
 Comparison steps:
 
@@ -148,7 +149,7 @@ return {
 }
 ```
 
-<img alt="img.png" style="width: 40%" src="img_7_8_render_with_patching_1.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_8_render_with_patching_1.png"/>
 
 #### The `patchDOM()` function
 
@@ -168,7 +169,7 @@ When diffing objects we track:
 - removed keys;
 - updated keys;
 
-<img alt="img.png" style="width: 40%" src="img_7_9_diffing_objects_example.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_9_diffing_objects_example.png"/>
 
 The steps:
 
@@ -209,7 +210,7 @@ When diffing arrays we track:
 
 If an item is changed we **_remove the old item_** and **_add the new item_**, **_NO MOVING_**.
 
-<img alt="img.png" style="width: 40%" src="img_7_10_diffing_arrays.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_10_diffing_arrays.png"/>
 
 ```javascript
 // FILE: utils/arrays.js
@@ -232,7 +233,7 @@ that.
 For two arrays,we have to come up with a list of **add**, **remove**, and **move** operations that transform the first
 array into the second one.
 
-<img alt="img.png" style="width: 40%" src="img_7_11_transform_array_example_1.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_11_transform_array_example_1.png"/>
 
 We **NEED** to keep track of the original indexes of items.
 
@@ -291,7 +292,7 @@ noop - { op: 'noop', item:'A',originalIndex:0, index: 1}
 
 ---
 
-<img alt="img.png" style="width: 40%" src="img_7_12_the_algorithm.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_12_the_algorithm.png"/>
 
 ##### Example
 
@@ -385,7 +386,7 @@ export function arraysDiffSequence(oldArray, newArray, equalsFn = (a, b) => a ==
 
 If item was removed check whether the item in the old array at the current index doesn’t exist in the new array.
 
-<img alt="img.png" style="width: 40%" src="img_7_18_remove_case_1.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_18_remove_case_1.png"/>
 
 ```javascript
 class ArrayWithOriginalIndices {
@@ -460,7 +461,7 @@ if (array.isRemoval(index, newArray)) {
 
 The noop case happens when, at the current index, both the old and new arrays have the same item.
 
-<img alt="img.png" style="width: 40%" src="img_7_19_noop_case_1.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_19_noop_case_1.png"/>
 
 
 ```javascript
@@ -528,7 +529,7 @@ if (array.isNoop(index, newArray)) {
 
 ##### The Addition Case and `findIndexFrom()` & `isAddition()` & `addItem()` methods inside `ArrayWithOriginalIndices` class
 
-<img alt="img.png" style="width: 40%" src="img_7_20_addition_case_1.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_20_addition_case_1.png"/>
 
 
 ```javascript
@@ -600,7 +601,7 @@ if (array.isAddition(item, index)) {
 
 if the operation isn’t a **remove**, an **add**, or a **noop**, it must be a **_move_**.
 
-<img alt="img.png" style="width: 40%" src="img_7_21_move_case_1.png"/>
+<img alt="img.png" style="width: 40%" src="images/img_7_21_move_case_1.png"/>
 
 To move an item:
 - you want to extract it from the array
@@ -658,7 +659,7 @@ sequence.push(array.moveItem(item, index))
 
 ##### Remove Remaining elements case 
 
-![img.png](img_7_22_remove_remaining_case_1.png)
+![img.png](images/img_7_22_remove_remaining_case_1.png)
 
 
 ```javascript

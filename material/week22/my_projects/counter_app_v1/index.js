@@ -111,24 +111,31 @@ const v_dom1 = hFragment([
 // },2500)
 
 
+
+
+function CounterApp(state, emit) {
+
+    return hFragment([
+        h("h1", {class: "title"}, ["My Counter"]),
+        h("div", {
+                class: "container",
+                style: {
+                    display: "flex",
+                    justifyContent: "space-around",
+                    width: "auto"
+                }
+            },
+            [
+                h("button", {on: {click: () => emit('decrement', 1)}}, ["decrement"]),
+                h("span", {}, [hString(String(state))]),
+                h("button", {on: {click: () => emit('increment', 1)}}, ["increment"])
+            ])
+    ])
+}
+
 const app = createApp({
         state: 0,
-        view: (state, emit) => hFragment([
-            h("h1", {class: "title"}, ["My Counter"]),
-            h("div", {
-                    class: "container",
-                    style: {
-                        display: "flex",
-                        justifyContent: "space-around",
-                        width: "auto"
-                    }
-                },
-                [
-                    h("button", {on: {click: () => emit('decrement', 1)}}, ["decrement"]),
-                    h("span", {}, [hString(state)]),
-                    h("button", {on: {click: () => emit('increment', 1)}}, ["increment"])
-                ])
-        ]),
+        view: CounterApp,
         reducers: {
             increment: (state, amount) => state + amount,
             decrement: (state, amount) => state - amount,
