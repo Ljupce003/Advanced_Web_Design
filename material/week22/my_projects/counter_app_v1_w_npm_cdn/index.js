@@ -112,9 +112,10 @@ const v_dom1 = hFragment([
 const app = createApp({
         state: 0,
         view: (state, emit) => hFragment([
-            h("h1", {class: "title"}, ["My Counter"]),
+            h("h1", {class: "title",id: "title_header"}, ["My Counter"]),
             h("div", {
                     class: "container",
+                id: "div-container",
                     style: {
                         display: "flex",
                         justifyContent: "space-around",
@@ -135,3 +136,12 @@ const app = createApp({
 )
 
 app.mount(document.body)
+
+// Exercise 8.1
+// let newParEl = document.createElement("p",)
+//
+// newParEl.innerText = "New Paragraph";
+//
+// let divEL = document.getElementById("div-container")
+//
+// divEL.parentElement.insertBefore(newParEl,divEL)

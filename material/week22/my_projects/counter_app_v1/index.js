@@ -1,7 +1,7 @@
 import {DOM_TYPES, h, hFragment, hString} from "../vanilla_project/packages/runtime/src/h.js"
 import {mountDOM} from "../vanilla_project/packages/runtime/src/mount-dom.js";
 import {destroyDOM} from "../vanilla_project/packages/runtime/src/destroy-dom.js";
-import {createApp} from "../vanilla_project/packages/runtime/src"
+import {createApp} from "../vanilla_project/packages/runtime/src/app.js"
 
 
 // console.log('This will soon be a frontend framework!')

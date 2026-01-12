@@ -29,3 +29,21 @@ export function hFragment(vNodes) {
         children: mapTextNodes(withoutNulls(vNodes)),
     }
 }
+
+export function extractChildren(v_dom){
+    if(v_dom.children == null){
+        return []
+    }
+
+    const children = []
+
+    for(const child of v_dom.children){
+        if(child.type === DOM_TYPES.FRAGMENT){
+            children.push(...extractChildren(child))
+        } else {
+            children.push(child)
+        }
+    }
+
+    return children
+}

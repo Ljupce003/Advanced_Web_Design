@@ -2,7 +2,7 @@
 
 export function setAttributes(el, attrs) {
     // Split the attributes
-    const {class: className, style, ...otherAttrs} = attrs
+    const {class: className, style,focus, ...otherAttrs} = attrs
     // Set the class attributes
     if (className) {
         setClass(el, className)

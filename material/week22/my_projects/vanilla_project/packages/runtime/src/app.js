@@ -1,6 +1,7 @@
 import {destroyDOM} from "./destroy-dom.js";
 import {mountDOM} from "./mount-dom.js";
 import {Dispatcher} from "./dispatcher.js";
+import {patchDom} from "./patch-dom.js";
 
 
 // creates the application object
@@ -35,13 +36,15 @@ export function createApp({state, view, reducers = {}}) {
     function renderApp() {
         console.log("App rendered")
         // if a previous view exists, it unmounts it
-        if (v_dom) {
-            destroyDOM(v_dom)
-        }
+        // if (v_dom) {
+        //     destroyDOM(v_dom)
+        // }
 
-        v_dom = view(state, emit)
+        const newV_dom = view(state, emit)
         // mounts the new view
-        mountDOM(v_dom, parentEl)
+        // mountDOM(v_dom, parentEl)
+
+        v_dom = patchDom(v_dom,newV_dom,parentEl)
     }
 
     // returns a closure instance that will have methods for mount and unmount
@@ -53,7 +56,7 @@ export function createApp({state, view, reducers = {}}) {
             }
 
             parentEl = _parentEl
-            v_dom = view(v_dom, emit)
+            v_dom = view(state, emit)
             mountDOM(v_dom, parentEl)
             isMounted = true
 
@@ -65,6 +68,9 @@ export function createApp({state, view, reducers = {}}) {
             subscriptions.forEach((unsubscribe) => unsubscribe())
 
             isMounted = false
+        },
+        dispatch(commandName,payload){
+            emit(commandName,payload)
         }
     }
 }

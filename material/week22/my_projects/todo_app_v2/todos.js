@@ -1,4 +1,5 @@
-import {createApp, h, hFragment, hString} from "https://unpkg.com/vanilla_project@1.0.0"
+// import {createApp, h, hFragment, hString} from "https://unpkg.com/vanilla_project@2.0.0"
+import {createApp, h, hFragment, hString} from "../vanilla_project/packages/runtime/src"
 
 
 const state = {
@@ -50,7 +51,8 @@ const reducers = {
         return {
             ...state,
             edit: {id: null, original: null, edited: null},  //resets the edit part in the state
-            todos
+            todos,
+            error: null
         }
     },
 
@@ -65,96 +67,125 @@ const reducers = {
         todos: state.todos.filter((_, i) => i !== id) // filters out the TO-DO with the given index
     }),
 
-    'cross-todo': (state,id) => ({
-        ...state,finished: [...state.finished,id]
+    'cross-todo': (state, id) => ({
+        ...state, finished: [...state.finished, id]
+    }),
+
+    'add-error': (state, error) => ({
+        ...state, error
     })
 }
 
 
 function CreateTodo({currentTodo}, emit) {
-    return h("div",{},[
-        h("label",{for: 'todo-input' },['New TODO']),
-        h('input',{
+    return h("div", {}, [
+        h("label", {for: 'todo-input'}, ['New TODO']),
+        h('input', {
             type: 'text',
             id: 'todo-input',
             value: currentTodo,
+            name: "new-todo-input",
             autofocus: true,
             on: {
-                input: ({target}) => emit('update-current-todo',target.value),
+                input: ({target}) => emit('update-current-todo', target.value),
                 keydown: ({key}) => {
-                    if(key === 'Enter' && currentTodo.length >= 3 ){
+                    if (key === 'Enter' && currentTodo.length >= 3) {
                         emit('add-todo')
                     }
                 }
             }
         }),
-        h("button",{
-            disabled : currentTodo.length < 3,
+        h("button", {
+            disabled: currentTodo.length < 3,
             on: {
                 click: () => emit('add-todo')
             }
-        },["Add"])
+        }, ["Add"])
     ]);
 }
 
-function TodoItem({todo, i, edit ,finished}, emit) {
+function TodoItem({todo, i, edit, finished, todos}, emit) {
     const isEditing = edit.id === i
 
     const isFinished = finished.includes(i)
 
-    return isFinished ? h("li",{},[
-        h("span",{
+
+    return isFinished ? h("li", {}, [
+        h("span", {
             style: {
                 textDecoration: "line-through"
             },
 
-        },[todo]),
-    ]) : isEditing ? h("li",{},[
-        h('input',{
+        }, [todo]),
+    ]) : isEditing ? h("li", {}, [
+        h('input', {
             value: edit.edited,
+            name: "edit-todo-input",
+            focus: true,
             on: {
-                input: ({target}) => emit("edit-todo",target.value)
+                input: ({target}) => emit("edit-todo", target.value),
+                keydown: ({key}) => {
+                    if (key === 'Enter' && edit.edited.length >= 3) {
+                        if (todos.map(t => t.toLowerCase()).includes(edit.edited.toLowerCase())) {
+                            emit('add-error', "The To-do is already in your list")
+                        } else {
+                            emit('save-edited-todo')
+                        }
+                    }
+                }
             }
         }),
-        h("button",{
+        h("button", {
+            disabled: edit.edited.length < 3,
             on: {
-                click: () => emit('save-edited-todo')
+                click: () => {
+                    if (edit.edited.length >= 3) {
+                        emit('save-edited-todo')
+                    }
+                }
             }
-        },["Save"]),
-        h("button",{
+        }, ["Save"]),
+        h("button", {
             on: {
                 click: () => emit('cancel-editing-todo')
             }
-        },["Cancel"])
-    ]) : h("li",{},[
-        h("span",{
+        }, ["Cancel"])
+    ]) : h("li", {}, [
+        h("span", {
             style: {
                 textDecoration: isFinished ? "line-through" : ""
             },
             on: {
-                dblclick: () => emit('start-editing-todo',i)
+                dblclick: () => emit('start-editing-todo', i)
             }
-        },[todo]),
-        h("button",{
+        }, [todo]),
+        h("button", {
             on: {
-                click: () => emit('cross-todo',i)
+                click: () => emit('cross-todo', i)
             }
-        },["Done"])
+        }, ["Done"])
     ])
 }
 
-function TodoList({todos, edit,finished}, emit) {
-    return h("ul",{},todos.map((todo,i) => TodoItem({todo, i, edit ,finished},emit)));
+function TodoList({todos, edit, finished}, emit) {
+    return h("ul", {}, todos.map((todo, i) => TodoItem({todo, i, edit, finished, todos}, emit)));
+}
+
+function ErrorParagraph(state, emit) {
+    return h('p', {
+        style: {color: 'red'}
+    }, state.error ? [state.error] : [null]);
 }
 
 function App(state, emit) {
     return hFragment([
         h("h1", {}, ['My TODOs']),
+        ErrorParagraph(state, emit),
         CreateTodo(state, emit),
         TodoList(state, emit)
     ])
 }
 
+let app = createApp({state, reducers, view: App})
 
-createApp({state,reducers,view: App})
-    .mount(document.body)
+app.mount(document.body)
