@@ -83,12 +83,12 @@ export function defineComponent({render, state, ...methods}) {
         }
 
         updateProps(props) {
-            // this.props = {...this.props, ...props}
             const newProps = {...this.props, ...props}
             if (equal(this.props, newProps)) {
                 return
             }
             this.props = newProps
+            // this.props = {...this.props, ...props}
             this.#patch()
         }
 

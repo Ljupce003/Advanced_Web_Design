@@ -1,6 +1,6 @@
 {
   "name": "vanilla_project",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "dist/vanilla_project.js",
   "files": [
     "dist/vanilla_project.js"
