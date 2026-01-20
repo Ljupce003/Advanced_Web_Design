@@ -37,6 +37,8 @@ const MyComponent = defineComponent({
 const compObj = new MyComponent()
 compObj.mount(document.body)
 
+
+//Exercise 9.3
 const width = window.innerWidth
 const height = window.innerHeight
 const FlyingButton = defineComponent({
@@ -48,8 +50,8 @@ const FlyingButton = defineComponent({
             on: {
                 click: () => {
                     this.updateState({
-                        x: parseInt(Math.random() * width+""),
-                        y: parseInt(Math.random() * height+""),
+                        x: parseInt(Math.random() * width + ""),
+                        y: parseInt(Math.random() * height + ""),
                     })
                 }
             },
@@ -61,17 +63,89 @@ const FlyingButton = defineComponent({
         }, ['Move'])
 
     },
-    state({width,height}){
+    state({width, height}) {
         return {
             width,
             height,
-            x: parseInt(Math.random() * width+ ""),
+            x: parseInt(Math.random() * width + ""),
             y: parseInt(Math.random() * height + ""),
         }
     }
 })
 
 
-const flyButonEl = new FlyingButton({width,height})
-flyButonEl.mount(document.body)
+const flyButonEl = new FlyingButton({width, height})
+// flyButonEl.mount(document.body)
 
+
+//Exercise 10.1
+
+const url = 'https://www.thecocktaildb.com/api/json/v1/1/random.php'
+
+async function fetchRandomCocktail() {
+    const response = await fetch(url)
+    const data = await response.json()
+
+    return data.drinks[0]
+}
+
+const RandomCocktail = defineComponent({
+    render() {
+
+        const { isLoading, cocktail } = this.state
+
+        if (isLoading) {
+            return hFragment([
+                h('h1', {}, ['Random Cocktail']),
+                h('p', {}, ['Loading...']),
+            ])
+        }
+
+        if (!cocktail) {
+            return hFragment([
+                h('h1', {}, ['Random Cocktail']),
+                h('button', { on: { click: this.fetchRandom } }, [
+                    'Get a cocktail',
+                ]),
+            ])
+        }
+
+        const { strDrink, strDrinkThumb, strInstructions } = cocktail
+
+        return hFragment([
+            h('h1', {}, [strDrink]),
+            h('p', {}, [strInstructions]),
+            h('img', {
+                src: strDrinkThumb,
+                alt: strDrink,
+                style: { width: '300px', height: '300px' },
+            }),
+            h(
+                'button',
+                {
+                    on: { click: () => this.fetchRandom() },
+                    style: { display: 'block', margin: '1em auto' },
+                },
+                ['Get another cocktail']
+            ),
+        ])
+    },
+
+    async fetchRandom() {
+        this.updateState({isLoading: true})
+
+        console.log(this.state)
+        // let response = await fetchRandomCocktail()
+        let data = await fetchRandomCocktail()
+
+        this.updateState({
+            isLoading: false,
+            cocktail: {...data}
+        })
+
+        console.log(this.state)
+    }
+})
+
+const randCocktailEl = new RandomCocktail({isLoading: true, cocktail: null})
+randCocktailEl.mount(document.body)

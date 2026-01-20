@@ -11,11 +11,11 @@ import {addEventListener} from "./events.js";
 
 
 
-export function patchDom(oldV_dom, newV_dom, parentEl, hostElement = null) {
+export function patchDom(oldV_dom, newV_dom, parentEl, hostComponent = null) {
     if (!areNodesEqual(oldV_dom, newV_dom)) {
         const index = findIndexInParent(parentEl, oldV_dom.el)
         destroyDOM(oldV_dom)
-        mountDOM(newV_dom, parentEl, index)
+        mountDOM(newV_dom, parentEl, index,hostComponent)
 
         return newV_dom
     }
@@ -28,13 +28,13 @@ export function patchDom(oldV_dom, newV_dom, parentEl, hostElement = null) {
             return newV_dom
         }
         case DOM_TYPES.ELEMENT: {
-            patchElement(oldV_dom, newV_dom)
+            patchElement(oldV_dom, newV_dom,hostComponent)
             break
         }
 
     }
 
-    patchChildren(oldV_dom,newV_dom,hostElement)
+    patchChildren(oldV_dom,newV_dom,hostComponent)
 
     return newV_dom
 }
@@ -63,7 +63,7 @@ function patchText(oldV_dom, newV_dom) {
 
 
 
-function patchElement(oldV_dom, newV_dom) {
+function patchElement(oldV_dom, newV_dom,hostComponent) {
 
     const el = oldV_dom.el
 
@@ -87,7 +87,7 @@ function patchElement(oldV_dom, newV_dom) {
     patchClasses(el, oldClass, newClass)
     patchStyles(el, oldStyle, newStyle)
 
-    newV_dom.listeners = patchEvents(el, oldListeners, oldEvents, newEvents)
+    newV_dom.listeners = patchEvents(el, oldListeners, oldEvents, newEvents,hostComponent)
 
 
 }
@@ -141,7 +141,7 @@ function patchStyles(el, oldStyle = {}, newStyle = {}) {
 }
 
 
-function patchEvents(el, oldListeners = {}, oldEvents = {}, newEvents = {}) {
+function patchEvents(el, oldListeners = {}, oldEvents = {}, newEvents = {},hostComponent) {
 
     const {removed, added, updated} = objectsDiff(oldEvents,newEvents)
 
@@ -152,7 +152,7 @@ function patchEvents(el, oldListeners = {}, oldEvents = {}, newEvents = {}) {
     const addedListeners = {}
 
     for(const eventName of added.concat(updated)){
-        const listener = addEventListener(eventName,newEvents[eventName],el)
+        const listener = addEventListener(eventName,newEvents[eventName],el,hostComponent)
 
         addedListeners[eventName] = listener
     }
