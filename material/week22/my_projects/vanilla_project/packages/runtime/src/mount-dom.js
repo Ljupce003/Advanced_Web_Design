@@ -1,6 +1,7 @@
 import {DOM_TYPES} from "./h.js";
 import {setAttributes} from './attributes.js'
 import {addEventListeners} from './events.js'
+import {extractPropsAndEvents} from "./utils/props.js";
 
 export function mountDOM(v_dom, parentEl, index,hostComponent = null) {
     switch (v_dom.type) {
@@ -14,6 +15,11 @@ export function mountDOM(v_dom, parentEl, index,hostComponent = null) {
         }
         case DOM_TYPES.FRAGMENT: { // Mounts a fragment vnode
             createFragmentNodes(v_dom, parentEl, index,hostComponent)
+            break
+        }
+
+        case DOM_TYPES.COMPONENT: {
+            createComponentNode(v_dom,parentEl,index,hostComponent)
             break
         }
         default: {
@@ -57,6 +63,17 @@ function createElementNode(v_dom, parentEl, index,hostComponent) {
         element.focus()
         element.select()
     }
+}
+
+function createComponentNode(v_dom, parentEl, index, hostComponent) {
+    const Component = v_dom.tag
+    const {props,events} = extractPropsAndEvents(v_dom)
+
+    const component = new Component(props,events,hostComponent)
+
+    component.mount(parentEl,index)
+    v_dom.component = component
+    v_dom.el = component.firstElement
 }
 
 function addProps(el, props, v_dom,hostComponent) {

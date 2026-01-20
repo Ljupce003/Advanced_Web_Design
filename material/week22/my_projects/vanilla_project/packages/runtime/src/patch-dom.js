@@ -7,6 +7,7 @@ import {removeAttribute, removeStyle, setAttribute, setStyle} from "./attributes
 import {ARRAY_DIFF_OP, arraysDiff, arraysDiffSequence} from "./utils/arrays.js";
 import {isNotBlankOrEmptyString} from './utils/strings.js'
 import {addEventListener} from "./events.js";
+import {extractPropsAndEvents} from "./utils/props";
 
 
 
@@ -29,6 +30,11 @@ export function patchDom(oldV_dom, newV_dom, parentEl, hostComponent = null) {
         }
         case DOM_TYPES.ELEMENT: {
             patchElement(oldV_dom, newV_dom,hostComponent)
+            break
+        }
+
+        case DOM_TYPES.COMPONENT: {
+            patchComponent(oldV_dom,newV_dom)
             break
         }
 
@@ -89,6 +95,17 @@ function patchElement(oldV_dom, newV_dom,hostComponent) {
 
     newV_dom.listeners = patchEvents(el, oldListeners, oldEvents, newEvents,hostComponent)
 
+
+}
+
+function patchComponent(oldV_dom, newV_dom) {
+    const {component} = oldV_dom
+    const {props} = extractPropsAndEvents(newV_dom)
+
+    component.updateProps(props)
+
+    newV_dom.component = component
+    newV_dom.el = component.firstElement
 
 }
 
