@@ -22,7 +22,8 @@ const reducers = {
     'add-todo': (state) => ({
         ...state,
         currentTodo: "",
-        todos: [...state.todos, state.currentTodo] // adds the current to-do in the todos list
+        todos: [...state.todos, state.currentTodo], // adds the current to-do in the todos list
+        error: null
     }),
 
     // we receive the id of the to-do to edit as payload
@@ -77,7 +78,7 @@ const reducers = {
 }
 
 
-function CreateTodo({currentTodo}, emit) {
+function CreateTodo({currentTodo,todos}, emit) {
     return h("div", {}, [
         h("label", {for: 'todo-input'}, ['New TODO']),
         h('input', {
@@ -87,10 +88,21 @@ function CreateTodo({currentTodo}, emit) {
             name: "new-todo-input",
             autofocus: true,
             on: {
-                input: ({target}) => emit('update-current-todo', target.value),
+                input: ({target}) => {
+                    emit('update-current-todo', target.value)
+                    if (todos.map(t => t.toLowerCase()).includes(target.value.toLowerCase())) {
+                        emit('add-error', "The To-do is already in your list")
+                    }else emit('add-error', null)
+                },
                 keydown: ({key}) => {
                     if (key === 'Enter' && currentTodo.length >= 3) {
-                        emit('add-todo')
+                        if (todos.map(t => t.toLowerCase()).includes(currentTodo.toLowerCase())) {
+                            emit('add-error', "The To-do is already in your list")
+                        }
+                        else {
+                            emit('add-todo')
+                        }
+
                     }
                 }
             }
@@ -98,7 +110,14 @@ function CreateTodo({currentTodo}, emit) {
         h("button", {
             disabled: currentTodo.length < 3,
             on: {
-                click: () => emit('add-todo')
+                click: () => {
+                    if (todos.map(t => t.toLowerCase()).includes(currentTodo.toLowerCase())) {
+                        emit('add-error', "The To-do is already in your list")
+                    }
+                    else {
+                        emit('add-todo')
+                    }
+                }
             }
         }, ["Add"])
     ]);
@@ -140,7 +159,11 @@ function TodoItem({todo, i, edit, finished, todos}, emit) {
             on: {
                 click: () => {
                     if (edit.edited.length >= 3) {
-                        emit('save-edited-todo')
+                        if (todos.map(t => t.toLowerCase()).includes(edit.edited.toLowerCase())) {
+                            emit('add-error', "The To-do is already in your list")
+                        } else {
+                            emit('save-edited-todo')
+                        }
                     }
                 }
             }
